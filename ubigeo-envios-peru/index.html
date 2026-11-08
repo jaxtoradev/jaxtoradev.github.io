@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ubigeo Envíos Perú | Departamento, provincia y distrito para WooCommerce</title>
+<meta name="description" content="Plugin gratis para WooCommerce: selectores de departamento, provincia y distrito con búsqueda, tarifas de envío por zona y migración en 1 clic desde otro plugin de ubigeo.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0b0d" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://jaxtoradev.github.io/ubigeo-envios-peru/">
+<link rel="alternate" hreflang="es-PE" href="https://jaxtoradev.github.io/ubigeo-envios-peru/">
+<link rel="alternate" hreflang="en" href="https://jaxtoradev.github.io/ubigeo-envios-peru/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://jaxtoradev.github.io/ubigeo-envios-peru/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ubigeo Envíos Perú">
+<meta property="og:title" content="Ubigeo Envíos Perú: el ubigeo del Perú, listo para vender">
+<meta property="og:description" content="Departamento, provincia y distrito en WooCommerce, tarifas por zona y migración en 1 clic. Gratis, sin llamadas externas.">
+<meta property="og:url" content="https://jaxtoradev.github.io/ubigeo-envios-peru/">
+<meta property="og:image" content="https://jaxtoradev.github.io/ubigeo-envios-peru/media/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_PE">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jaxtoradev.github.io/ubigeo-envios-peru/media/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Ubigeo Envíos Perú","operatingSystem":"WordPress","applicationCategory":"BusinessApplication","softwareVersion":"1.0.0","author":{"@type":"Organization","name":"Jaxtora"},"offers":{"@type":"Offer","price":"0","priceCurrency":"PEN"}}
+</script>
+<style>
+/* ---------- tokens ---------- */
+:root{
+  --bg:#fbfaf8; --alt:#f3f1ed; --surface:#fff; --ink:#1d1d1f; --ink2:#5f5f66; --line:rgba(0,0,0,.09);
+  --accent:#b4432c; --on-accent:#fff; --accent-soft:rgba(180,67,44,.08);
+  --yes:#1a7a4c; --dot:#d4d2cd; --step-a:#e6e3dd; --step-b:#cfcbc3;
+  --shadow-s:0 1px 2px rgba(0,0,0,.05),0 4px 12px -4px rgba(0,0,0,.08);
+  --shadow-l:0 1px 1px rgba(0,0,0,.04),0 12px 24px -8px rgba(0,0,0,.10),0 40px 80px -24px rgba(0,0,0,.18);
+  --nav:rgba(251,250,248,.72);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --w:64rem; --gut:1rem;
+  /* critically damped spring (damping 1.0, response ~0.4 s), sampled into linear() */
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@supports (transition-timing-function:linear(0,1)){
+  :root{--ease:linear(0,.082 5%,.243 10%,.561 20%,.774 30%,.89 40%,.965 55%,.99 70%,1)}
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0b0b0d; --alt:#151517; --surface:#1c1c1e; --ink:#f5f5f7; --ink2:#a1a1a6; --line:rgba(255,255,255,.1);
+    --accent:#ff8a6b; --on-accent:#1d1d1f; --accent-soft:rgba(255,138,107,.12);
+    --yes:#5fd39e; --dot:#3a3a3e; --step-a:#2a2a2e; --step-b:#3a3a3f;
+    --shadow-s:0 1px 2px rgba(0,0,0,.4),0 4px 12px -4px rgba(0,0,0,.5);
+    --shadow-l:0 0 0 1px rgba(255,255,255,.06),0 12px 24px -8px rgba(0,0,0,.5),0 40px 80px -24px rgba(0,0,0,.7);
+    --nav:rgba(11,11,13,.7);
+  }
+}
+@media (min-width:40rem){:root{--gut:1.5rem}}
+
+/* ---------- base ---------- */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:6rem;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.55 var(--font);letter-spacing:-.003em;-webkit-font-smoothing:antialiased;font-optical-sizing:auto;overflow-x:clip}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+p{margin:0}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:var(--gut);top:-4rem;background:var(--ink);color:var(--bg);padding:.6rem 1rem;border-radius:.6rem;z-index:30;text-decoration:none}
+.skip:focus{top:.6rem}
+.wrap{width:min(100% - 2*var(--gut),var(--w));margin-inline:auto}
+
+/* type scale: tracking tightens and leading drops as size grows */
+h1,h2,h3{margin:0;font-weight:700;text-wrap:balance}
+h1{font-size:clamp(2.6rem,1.4rem + 5.6vw,5.25rem);line-height:1.04;letter-spacing:-.038em}
+@media(max-width:26rem){h1{font-size:2.3rem}}
+h2{font-size:clamp(2rem,1.25rem + 3.4vw,3.5rem);line-height:1.07;letter-spacing:-.03em}
+h3{font-size:clamp(1.25rem,1.1rem + .5vw,1.5rem);line-height:1.2;letter-spacing:-.018em}
+.eyebrow{font-size:1.0625rem;font-weight:600;color:var(--accent);letter-spacing:-.005em}
+.lead{font-size:clamp(1.125rem,1rem + .55vw,1.375rem);line-height:1.45;letter-spacing:-.01em;color:var(--ink2);text-wrap:pretty}
+.small{font-size:.875rem;line-height:1.45;letter-spacing:.003em;color:var(--ink2)}
+
+/* ---------- nav: translucent layer, hairline only once content scrolls under ---------- */
+header.top{position:sticky;top:0;z-index:20;background:var(--nav);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);box-shadow:0 1px 0 transparent;transition:box-shadow .3s ease}
+header.top.scrolled{box-shadow:0 1px 0 var(--line)}
+.bar{display:flex;align-items:center;gap:1rem;min-height:3.25rem}
+.brand{display:flex;align-items:center;gap:.55rem;font-weight:600;font-size:1rem;letter-spacing:-.015em;text-decoration:none;white-space:nowrap}
+.brand svg{width:1.6rem;height:1.6rem;flex:none}
+.bar{flex-wrap:wrap;column-gap:1rem}
+nav.links{order:3;flex:1 0 100%;display:flex;gap:1.25rem;overflow-x:auto;scrollbar-width:none;font-size:.8125rem;letter-spacing:.003em;padding:.1rem 0 .6rem;margin:0 calc(-1*var(--gut));padding-inline:var(--gut)}
+nav.links::-webkit-scrollbar{display:none}
+nav.links a{white-space:nowrap;padding:.35rem 0}
+nav.links a{text-decoration:none;color:var(--ink2);transition:color .2s}
+nav.links a:hover{color:var(--ink)}
+@media(min-width:52rem){.bar{flex-wrap:nowrap}nav.links{order:0;flex:0 1 auto;margin:0 0 0 auto;padding:0;gap:1.75rem;font-size:.875rem;overflow:visible}}
+
+/* segmented control with a sliding thumb (interruptible CSS transition) */
+.lang{margin-left:auto;position:relative;display:inline-grid;grid-template-columns:1fr 1fr;padding:3px;border-radius:999px;background:color-mix(in srgb,var(--ink) 7%,transparent)}
+@media(min-width:52rem){.lang{margin-left:0}}
+.lang::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:999px;background:var(--surface);box-shadow:var(--shadow-s);transition:transform .45s var(--ease)}
+.lang[data-active=en]::before{transform:translateX(100%)}
+.lang button{position:relative;font:600 .8125rem/1 var(--font);letter-spacing:.01em;border:0;background:transparent;color:var(--ink2);padding:0 .8rem;min-height:2.25rem;min-width:2.75rem;border-radius:999px;cursor:pointer;transition:color .2s}
+.lang button[aria-pressed=true]{color:var(--ink)}
+.lang button:active{transform:scale(.96)}
+
+/* ---------- buttons ---------- */
+.cta{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem 1.5rem;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;min-height:2.875rem;padding:0 1.4rem;border-radius:999px;font-weight:500;font-size:1.0625rem;letter-spacing:-.01em;text-decoration:none;transition:transform .12s ease-out,background-color .2s,filter .2s}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.link{color:var(--accent);padding:0 .25rem}
+.btn.link::after{content:"\203A";font-size:1.25em;line-height:1;transition:transform .3s var(--ease)}
+.btn.link:hover::after{transform:translateX(3px)}
+
+/* ---------- sections ---------- */
+section{padding:clamp(4.5rem,3rem + 7vw,9rem) 0}
+section.alt{background:var(--alt)}
+.head{display:grid;gap:.85rem;margin:0 auto clamp(2.5rem,2rem + 3vw,4.5rem);max-width:44rem;text-align:center}
+.head .lead{margin-inline:auto;max-width:36rem}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(2.5rem,1.5rem + 4vw,5rem) 0 clamp(4rem,3rem + 6vw,8rem);text-align:center;overflow:hidden}
+.chip{display:inline-flex;align-items:center;gap:.5rem;margin-bottom:1.5rem;font-size:.875rem;font-weight:500;color:var(--ink2);padding:.4rem .9rem;border-radius:999px;background:color-mix(in srgb,var(--ink) 5%,transparent)}
+.chip i{width:.5rem;height:.5rem;border-radius:50%;background:var(--accent)}
+.hero h1{max-width:20ch;margin:0 auto 1.25rem}
+.hero h1 em{font-style:normal;color:var(--accent);white-space:nowrap}
+.hero .lead{max-width:38rem;margin:0 auto 2.25rem}
+.trust{margin-top:1.25rem}
+@media(max-width:40rem){.win.hero-win video{aspect-ratio:720/882}}
+.code .eyebrow{text-align:center;margin-bottom:1rem}
+.hero-demo{max-width:56rem;margin:clamp(2.5rem,2rem + 2vw,3.5rem) auto 0;text-align:left}
+.hero-demo figcaption{display:grid;gap:.25rem;margin:1.25rem auto 0;max-width:36rem;text-align:center}
+.hero-demo figcaption strong{font-weight:600;letter-spacing:-.01em}
+.hero-demo figcaption span{color:var(--ink2);font-size:.9375rem}
+.facts{display:flex;flex-wrap:wrap;justify-content:center;gap:1.25rem 2.5rem;margin:3.5rem auto 0;padding:0;list-style:none}
+.facts li{display:grid;gap:.15rem}
+.facts b{font-size:clamp(1.75rem,1.4rem + 1.4vw,2.5rem);font-weight:700;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.facts span{font-size:.875rem;color:var(--ink2)}
+@media(max-width:40rem){.facts{display:grid;grid-template-columns:1fr 1fr;max-width:20rem}}
+
+/* the ubigeo code, three terraces: neutrals step up to the accent */
+.code{max-width:30rem;margin:0 auto clamp(2.5rem,2rem + 2vw,3.5rem)}
+.terraces{display:grid;gap:.6rem;grid-template-columns:repeat(3,1fr);align-items:end;text-align:left}
+.terrace{border-radius:1.1rem;padding:1rem .9rem 1.1rem;display:flex;flex-direction:column;justify-content:flex-end}
+.terrace:nth-child(1){background:var(--step-a);min-height:7.5rem}
+.terrace:nth-child(2){background:var(--step-b);min-height:9.5rem}
+.terrace:nth-child(3){background:var(--accent);color:var(--on-accent);min-height:11.5rem;box-shadow:var(--shadow-s)}
+.terrace .n{font:600 clamp(2rem,1.6rem + 2vw,2.75rem)/1 var(--mono);letter-spacing:-.04em}
+.terrace .l{font-size:.8125rem;font-weight:600;letter-spacing:.01em;margin-top:.75rem}
+.terrace .v{font-weight:600;font-size:1rem;letter-spacing:-.01em}
+.code-cap{margin-top:1rem}
+.code-cap code{font-family:var(--mono);color:var(--ink)}
+
+/* ---------- window frame for the GIFs ---------- */
+.win{border-radius:.9rem;background:var(--surface);box-shadow:var(--shadow-l);overflow:hidden;isolation:isolate}
+.win-bar{display:flex;gap:.4rem;align-items:center;height:1.75rem;padding:0 .75rem;background:color-mix(in srgb,var(--ink) 4%,var(--surface));border-bottom:1px solid var(--line)}
+.win-bar i{width:.625rem;height:.625rem;border-radius:50%;background:var(--dot)}
+.win video{display:block;width:100%;height:auto;aspect-ratio:1000/640;object-fit:cover;background:var(--alt)}
+.win.admin video{aspect-ratio:840/576}
+
+/* ---------- demos: one feature per row, alternating sides ---------- */
+.features{display:grid;gap:clamp(4rem,3rem + 5vw,7rem)}
+figure{margin:0}
+.feature{display:grid;gap:1.5rem;align-items:center}
+.feature figcaption{display:grid;gap:.6rem;max-width:26rem}
+.feature figcaption span{color:var(--ink2)}
+@media(min-width:52rem){
+  .feature{grid-template-columns:1.55fr 1fr;gap:3.5rem}
+  .feature:nth-child(even){grid-template-columns:1fr 1.55fr}
+  .feature:nth-child(even) .win{order:2}
+}
+
+/* ---------- comparison table ---------- */
+.tablewrap{overflow-x:auto;border-radius:1.1rem;background:var(--surface);box-shadow:var(--shadow-s);-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:38rem;font-size:.9375rem;line-height:1.4}
+.swipe{display:none;margin-bottom:.75rem;text-align:center}
+@media(max-width:40rem){
+  table{min-width:36rem;font-size:.875rem}
+  th,td{padding:.75rem .8rem}
+  th[scope=row],thead th:first-child{position:static;min-width:9rem}
+  th:nth-child(n+3),td:nth-child(n+3){min-width:7.5rem}
+  .swipe{display:block}
+  .tablewrap{-webkit-mask-image:linear-gradient(to right,#000 92%,transparent);mask-image:linear-gradient(to right,#000 92%,transparent)}
+  .tablewrap.end{-webkit-mask-image:none;mask-image:none}
+}
+caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+th,td{padding:.9rem 1rem;text-align:left;vertical-align:top;border-top:1px solid var(--line)}
+thead th{border-top:0;font-size:.8125rem;font-weight:600;letter-spacing:.005em;color:var(--ink2);vertical-align:bottom}
+th[scope=row]{font-weight:500;min-width:10.5rem;position:sticky;left:0;background:var(--surface);z-index:1}
+thead th:first-child{position:sticky;left:0;background:var(--surface);z-index:1}
+.us{background:var(--accent-soft)}
+thead th.us{color:var(--accent)}
+td.us{font-weight:600}
+.yes{color:var(--yes)}.no{color:var(--ink2)}.paid{color:var(--accent);font-weight:600}
+.note{margin-top:1.25rem}
+
+/* ---------- migration ---------- */
+.mig{display:grid;gap:3rem;align-items:center}
+@media(min-width:56rem){.mig{grid-template-columns:1fr 1.2fr;gap:4rem}}
+.mig h2{margin:.6rem 0 1rem}
+ol.steps{margin:2rem 0 0;padding:0;list-style:none;display:grid;gap:1.25rem;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:2rem 1fr;gap:1rem}
+ol.steps li::before{content:counter(s);display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--ink);color:var(--bg);font-weight:600;font-size:.9375rem;font-variant-numeric:tabular-nums}
+ol.steps b{display:block;font-weight:600;letter-spacing:-.01em}
+ol.steps span{color:var(--ink2)}
+code.cmd{font-family:var(--mono);font-size:.875rem;background:var(--surface);border:1px solid var(--line);padding:.15rem .45rem;border-radius:.4rem;white-space:nowrap}
+.mig figcaption{margin-top:1rem}
+
+/* ---------- pricing ---------- */
+.plans{display:grid;gap:1.25rem}
+@media(min-width:56rem){.plans{grid-template-columns:repeat(3,1fr)}}
+.plan{background:var(--surface);border-radius:1.4rem;padding:2rem 1.75rem;display:flex;flex-direction:column;gap:.75rem;box-shadow:var(--shadow-s)}
+.plan.free{box-shadow:0 0 0 2px var(--accent),var(--shadow-l)}
+.plan h3{margin-top:.5rem}
+@media(min-width:56rem){.pricebox{min-height:6.75rem}}
+.plan .price{font-size:2.75rem;font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.plan .price small{display:block;margin-top:.5rem;font-size:.9375rem;font-weight:500;color:var(--ink2);letter-spacing:-.005em}
+.plan .usd{margin-top:.35rem}
+.plan ul{margin:.75rem 0 0;padding:1.25rem 0 0;border-top:1px solid var(--line);list-style:none;display:grid;gap:.6rem;font-size:.9375rem;line-height:1.4}
+.plan li{display:grid;grid-template-columns:1rem 1fr;gap:.6rem}
+.plan li::before{content:"";width:.4rem;height:.4rem;margin:.5em 0 0 .2rem;border-radius:50%;background:var(--ink2)}
+.plan.free li::before{background:var(--accent)}
+.plan .note{margin-top:auto;padding-top:1rem}
+.plan .btn{margin-top:auto;align-self:flex-start;min-height:2.5rem;font-size:.9375rem}
+.plan ul{margin-bottom:1rem}
+.tag{align-self:flex-start;font-size:.75rem;font-weight:600;letter-spacing:.02em;padding:.3rem .7rem;border-radius:999px;background:var(--accent);color:var(--on-accent)}
+.tag.soon{background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink2)}
+.fine{max-width:44rem;margin:2.5rem auto 0;display:grid;gap:.75rem;text-align:center}
+
+/* ---------- faq ---------- */
+.faq{max-width:46rem;margin-inline:auto}
+details{border-top:1px solid var(--line)}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;font-weight:600;font-size:1.125rem;letter-spacing:-.012em;padding:1.25rem 0;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";flex:none;width:.6rem;height:.6rem;margin-right:.3rem;border-right:2px solid var(--ink2);border-bottom:2px solid var(--ink2);transform:translateY(-25%) rotate(45deg);transition:transform .45s var(--ease)}
+details[open] summary::after{transform:translateY(25%) rotate(-135deg)}
+details p{padding:0 2rem 1.5rem 0;color:var(--ink2)}
+details[open] p{animation:fade .5s var(--ease)}
+@keyframes fade{from{opacity:0;transform:translateY(-4px)}}
+
+/* ---------- footer ---------- */
+footer{padding:2.5rem 0 3.5rem;background:var(--alt);border-top:1px solid var(--line)}
+footer .wrap{display:grid;gap:.6rem}
+footer b{color:var(--ink);font-weight:600}
+footer a{color:var(--ink2)}
+
+/* ---------- entrance: one spring-eased rise per block ---------- */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease-out,transform .9s var(--ease);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+.no-js .rv{opacity:1;transform:none}
+
+/* ---------- accessibility preferences ---------- */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{transform:none;transition:opacity .2s ease}
+  .lang::before,summary::after,.btn,.btn.link::after{transition:none}
+  details[open] p{animation:none}
+}
+@media(prefers-reduced-transparency:reduce){
+  header.top{background:var(--bg);-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+@media(prefers-contrast:more){
+  :root{--line:currentColor;--ink2:var(--ink)}
+  header.top{background:var(--bg);box-shadow:0 1px 0 var(--ink)}
+  .plan,.tablewrap,.win{border:1px solid var(--ink)}
+}
+</style>
+</head>
+<body class="no-js">
+<a class="skip" href="#main" data-es="Saltar al contenido" data-en="Skip to content">Saltar al contenido</a>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="Ubigeo Envíos Perú">
+      <svg viewBox="0 0 256 256" aria-hidden="true"><rect width="256" height="256" rx="54" fill="#1d2a44"/><rect x="38" y="148" width="180" height="38" rx="8" fill="#f6efe2"/><rect x="68" y="106" width="120" height="38" rx="8" fill="#e0a82e"/><rect x="98" y="64" width="60" height="38" rx="8" fill="#c8553d"/><circle cx="128" cy="40" r="11" fill="none" stroke="#f6efe2" stroke-width="6"/></svg>
+      <span>Ubigeo Envíos Perú</span>
+    </a>
+    <nav class="links" aria-label="Principal" data-es-label="Principal" data-en-label="Main">
+      <a href="#demo" data-es="Demos" data-en="Demos">Demos</a>
+      <a href="#comparar" data-es="Comparar" data-en="Compare">Comparar</a>
+      <a href="#migrar" data-es="Migrar" data-en="Migrate">Migrar</a>
+      <a href="#planes" data-es="Planes" data-en="Plans">Planes</a>
+      <a href="#faq" data-es="Preguntas" data-en="FAQ">Preguntas</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Idioma / Language" data-active="es">
+      <button type="button" data-lang="es" aria-pressed="true" lang="es">ES</button>
+      <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap">
+    <p class="chip rv"><i aria-hidden="true"></i><span data-es="En revisión en WordPress.org" data-en="Under review on WordPress.org">En revisión en WordPress.org</span></p>
+    <h1 class="rv" style="--d:.06s" data-es="El ubigeo del Perú en tu checkout de WooCommerce. <em>Gratis.</em>" data-en="Peru's ubigeo in your WooCommerce checkout. <em>Free.</em>">El ubigeo del Perú en tu checkout de WooCommerce. <em>Gratis.</em></h1>
+    <p class="lead rv" style="--d:.12s" data-es="Departamento, provincia y distrito con búsqueda, tarifas de envío por zona y migración en 1 clic desde tu plugin actual. Sin llamadas externas." data-en="Department, province and district with search, shipping rates per zone and one-click migration from your current plugin. No external calls.">Departamento, provincia y distrito con búsqueda, tarifas de envío por zona y migración en 1 clic desde tu plugin actual. Sin llamadas externas.</p>
+    <div class="cta rv" style="--d:.18s">
+      <a class="btn primary" href="#demo" data-es="Ver cómo funciona" data-en="See how it works">Ver cómo funciona</a>
+      <a class="btn link" href="mailto:jaxtoradev@gmail.com?subject=Av%C3%ADsame%20cuando%20salga%20Ubigeo%20Env%C3%ADos%20Per%C3%BA" data-es="Avísame cuando se publique" data-en="Tell me when it ships">Avísame cuando se publique</a>
+    </div>
+    <p class="trust small rv" style="--d:.22s" data-es="Probado con WordPress 7.1.4 y WooCommerce 11.2.2. Licencia GPL v2." data-en="Tested with WordPress 7.1.4 and WooCommerce 11.2.2. GPL v2 license.">Probado con WordPress 7.1.4 y WooCommerce 11.2.2. Licencia GPL v2.</p>
+    <figure class="hero-demo rv" style="--d:.28s">
+      <div class="win hero-win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i></div><video muted loop playsinline preload="none" poster="media/demo-block.jpg" data-poster-m="media/demo-block-m.jpg" aria-describedby="cap-block" aria-label="Checkout de bloques: al cambiar el distrito el costo de envío se recalcula" data-es-label="Checkout de bloques: al cambiar el distrito el costo de envío se recalcula" data-en-label="Block checkout: changing the district recalculates the shipping cost"><source src="media/demo-block-m.webm" type="video/webm" media="(max-width: 40rem)"><source src="media/demo-block-m.mp4" type="video/mp4" media="(max-width: 40rem)"><source src="media/demo-block.webm" type="video/webm"><source src="media/demo-block.mp4" type="video/mp4"></video></div>
+      <figcaption id="cap-block"><strong data-es="Checkout de bloques y tarifa por distrito" data-en="Block checkout and per-district rates">Checkout de bloques y tarifa por distrito</strong><span data-es="El envío se recalcula al cambiar de distrito: la regla más específica gana (distrito, provincia, departamento)." data-en="Shipping recalculates when the district changes: the most specific rule wins (district, province, department).">El envío se recalcula al cambiar de distrito: la regla más específica gana (distrito, provincia, departamento).</span></figcaption>
+    </figure>
+    <ul class="facts rv" style="--d:.1s" aria-label="Datos" data-es-label="Datos" data-en-label="Facts">
+      <li><b>25</b> <span data-es="departamentos" data-en="departments">departamentos</span></li>
+      <li><b>196</b> <span data-es="provincias" data-en="provinces">provincias</span></li>
+      <li><b>1892</b> <span data-es="distritos" data-en="districts">distritos</span></li>
+      <li><b>0</b> <span data-es="llamadas externas" data-en="external calls">llamadas externas</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="demo" class="alt">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow" data-es="En acción" data-en="In action">En acción</p>
+      <h2 data-es="Grabado en una tienda WooCommerce real" data-en="Recorded on a real WooCommerce store">Grabado en una tienda WooCommerce real</h2>
+      <p class="lead" data-es="WordPress 7.1.4 y WooCommerce 11.2.2, en español. Sin edición: es el checkout tal como lo ve tu cliente." data-en="WordPress 7.1.4 and WooCommerce 11.2.2, in Spanish. Unedited: this is the checkout as your customer sees it.">WordPress 7.1.4 y WooCommerce 11.2.2, en español. Sin edición: es el checkout tal como lo ve tu cliente.</p>
+    </div>
+    <div class="features">
+      <figure class="feature rv">
+        <div class="win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i></div><video muted loop playsinline preload="none" poster="media/demo-classic.jpg" aria-describedby="cap-classic" aria-label="Checkout clásico: al elegir un departamento se cargan sus provincias y luego sus distritos" data-es-label="Checkout clásico: al elegir un departamento se cargan sus provincias y luego sus distritos" data-en-label="Classic checkout: choosing a department loads its provinces and then its districts"><source src="media/demo-classic.webm" type="video/webm"><source src="media/demo-classic.mp4" type="video/mp4"></video></div>
+        <figcaption id="cap-classic"><h3 data-es="Selectores encadenados" data-en="Chained selects">Selectores encadenados</h3><span data-es="Elige departamento y se cargan las provincias; elige provincia y se cargan los distritos. Sin recargar la página." data-en="Pick a department and its provinces load; pick a province and its districts load. No page reload.">Elige departamento y se cargan las provincias; elige provincia y se cargan los distritos. Sin recargar la página.</span></figcaption>
+      </figure>
+      <figure class="feature rv">
+        <div class="win"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i></div><video muted loop playsinline preload="none" poster="media/demo-search.jpg" aria-describedby="cap-search" aria-label="Búsqueda en los selectores: se escribe 'san mart' y aparece San Martín de Porres" data-es-label="Búsqueda en los selectores: se escribe 'san mart' y aparece San Martín de Porres" data-en-label="Search in the selects: typing 'san mart' shows San Martín de Porres"><source src="media/demo-search.webm" type="video/webm"><source src="media/demo-search.mp4" type="video/mp4"></video></div>
+        <figcaption id="cap-search"><h3 data-es="Búsqueda que ignora tildes" data-en="Search that ignores accents">Búsqueda que ignora tildes</h3><span data-es="Escribe unas letras y el distrito aparece. También funciona con teclado y en el celular." data-en="Type a few letters and the district shows up. Works with the keyboard and on mobile too.">Escribe unas letras y el distrito aparece. También funciona con teclado y en el celular.</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section id="comparar">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow" data-es="Comparar" data-en="Compare">Comparar</p>
+      <h2 data-es="Lo que otros cobran, aquí es gratis" data-en="What others charge for is free here">Lo que otros cobran, aquí es gratis</h2>
+      <p class="lead" data-es="Frente a otros plugins de ubigeo." data-en="Against other ubigeo plugins.">Frente a otros plugins de ubigeo.</p>
+    </div>
+    <p class="swipe small" data-es="Desliza para ver las otras columnas." data-en="Swipe to see the other columns.">Desliza para ver las otras columnas.</p>
+    <div class="tablewrap rv" role="region" aria-label="Tabla comparativa" data-es-label="Tabla comparativa" data-en-label="Comparison table" tabindex="0">
+      <table>
+        <caption data-es="Cada fila indica si la función está incluida, es de pago o no existe." data-en="Each row says whether the feature is included, paid or missing.">Cada fila indica si la función está incluida, es de pago o no existe.</caption>
+        <thead><tr><th scope="col" data-es="Función" data-en="Feature">Función</th><th scope="col" class="us">Ubigeo Envíos Perú</th><th scope="col" data-es="Plugin más instalado, gratis" data-en="Most installed plugin, free">Plugin más instalado, gratis</th><th scope="col" data-es="Su complemento de pago" data-en="Its paid add-on">Su complemento de pago</th></tr></thead>
+        <tbody>
+          <tr><th scope="row" data-es="Selectores en el checkout clásico" data-en="Selects in the classic checkout">Selectores en el checkout clásico</th><td class="us yes" data-es="Sí, con búsqueda" data-en="Yes, with search">Sí, con búsqueda</td><td class="yes" data-es="Sí" data-en="Yes">Sí</td><td class="no" data-es="Usa el gratuito" data-en="Uses the free one">Usa el gratuito</td></tr>
+          <tr><th scope="row" data-es="Checkout de bloques" data-en="Block checkout">Checkout de bloques</th><td class="us yes" data-es="Sí" data-en="Yes">Sí</td><td class="no" data-es="No" data-en="No">No</td><td class="no" data-es="No" data-en="No">No</td></tr>
+          <tr><th scope="row" data-es="Compatible con HPOS" data-en="HPOS compatible">Compatible con HPOS</th><td class="us yes" data-es="Sí" data-en="Yes">Sí</td><td class="yes" data-es="Sí" data-en="Yes">Sí</td><td class="no" data-es="Usa el gratuito" data-en="Uses the free one">Usa el gratuito</td></tr>
+          <tr><th scope="row" data-es="Código de 6 dígitos guardado en el pedido" data-en="6-digit code stored on the order">Código de 6 dígitos guardado en el pedido</th><td class="us yes" data-es="Sí, código INEI" data-en="Yes, INEI code">Sí, código INEI</td><td class="no" data-es="No, guarda IDs propios" data-en="No, stores its own IDs">No, guarda IDs propios</td><td class="no" data-es="Usa el gratuito" data-en="Uses the free one">Usa el gratuito</td></tr>
+          <tr><th scope="row" data-es="Tarifa por departamento y por distrito" data-en="Rate per department and per district">Tarifa por departamento y por distrito</th><td class="us yes" data-es="Sí, gratis" data-en="Yes, free">Sí, gratis</td><td class="no" data-es="No" data-en="No">No</td><td class="paid" data-es="De pago" data-en="Paid">De pago</td></tr>
+          <tr><th scope="row" data-es="Tarifa por provincia" data-en="Rate per province">Tarifa por provincia</th><td class="us yes" data-es="Sí, gratis" data-en="Yes, free">Sí, gratis</td><td class="no" data-es="No" data-en="No">No</td><td class="no" data-es="No" data-en="No">No</td></tr>
+          <tr><th scope="row" data-es="Envío gratis desde un monto, por zona" data-en="Free shipping over an amount, per zone">Envío gratis desde un monto, por zona</th><td class="us yes" data-es="Sí, gratis" data-en="Yes, free">Sí, gratis</td><td class="no" data-es="No" data-en="No">No</td><td class="paid" data-es="De pago" data-en="Paid">De pago</td></tr>
+          <tr><th scope="row" data-es="Recojo en tienda" data-en="Store pickup">Recojo en tienda</th><td class="us yes" data-es="Sí, gratis" data-en="Yes, free">Sí, gratis</td><td class="no" data-es="No" data-en="No">No</td><td class="paid" data-es="De pago" data-en="Paid">De pago</td></tr>
+          <tr><th scope="row" data-es="Importar y exportar tarifas por CSV" data-en="Import and export rates by CSV">Importar y exportar tarifas por CSV</th><td class="us yes" data-es="Sí, gratis" data-en="Yes, free">Sí, gratis</td><td class="no" data-es="No" data-en="No">No</td><td class="paid" data-es="De pago" data-en="Paid">De pago</td></tr>
+          <tr><th scope="row" data-es="API REST, shortcode y bloque para formularios" data-en="REST API, shortcode and block for forms">API REST, shortcode y bloque para formularios</th><td class="us yes" data-es="Sí" data-en="Yes">Sí</td><td class="no" data-es="No" data-en="No">No</td><td class="no" data-es="No" data-en="No">No</td></tr>
+          <tr><th scope="row" data-es="Migración desde tu plugin actual" data-en="Migration from your current plugin">Migración desde tu plugin actual</th><td class="us yes" data-es="Sí, en 1 clic" data-en="Yes, in 1 click">Sí, en 1 clic</td><td class="no" data-es="No" data-en="No">No</td><td class="no" data-es="Usa el gratuito" data-en="Uses the free one">Usa el gratuito</td></tr>
+          <tr><th scope="row" data-es="Se limpia al desinstalar" data-en="Cleans up on uninstall">Se limpia al desinstalar</th><td class="us yes" data-es="Sí" data-en="Yes">Sí</td><td class="no" data-es="No, deja 3 tablas" data-en="No, leaves 3 tables">No, deja 3 tablas</td><td class="no" data-es="Usa el gratuito" data-en="Uses the free one">Usa el gratuito</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note small" data-es="Comparado con el plugin de ubigeo más instalado en WordPress.org y su complemento de envíos de pago, según su código y su ficha pública al 7 de noviembre de 2026." data-en="Compared with the most installed ubigeo plugin on WordPress.org and its paid shipping add-on, based on their code and public listing as of 7 November 2026.">Comparado con el plugin de ubigeo más instalado en WordPress.org y su complemento de envíos de pago, según su código y su ficha pública al 7 de noviembre de 2026.</p>
+  </div>
+</section>
+
+<section id="migrar" class="alt">
+  <div class="wrap mig">
+    <div class="rv">
+      <p class="eyebrow" data-es="Migrar" data-en="Migrate">Migrar</p>
+      <h2 data-es="Cámbiate en 1 clic" data-en="Switch in 1 click">Cámbiate en 1 clic</h2>
+      <p class="lead" data-es="El migrador detecta los datos del plugin que usas ahora y convierte tus pedidos, direcciones de clientes y, si tienes su complemento de envíos, tus tarifas." data-en="The migrator finds the data left by your current plugin and converts your orders, customer addresses and, if you have its shipping add-on, your rates.">El migrador detecta los datos del plugin que usas ahora y convierte tus pedidos, direcciones de clientes y, si tienes su complemento de envíos, tus tarifas.</p>
+      <ol class="steps">
+        <li><div><b data-es="Haz la simulación" data-en="Run the dry run">Haz la simulación</b><span data-es="Muestra cuántos pedidos y clientes se convierten y qué nombres no coinciden. No escribe nada." data-en="It shows how many orders and customers convert and which names do not match. It writes nothing.">Muestra cuántos pedidos y clientes se convierten y qué nombres no coinciden. No escribe nada.</span></div></li>
+        <li><div><b data-es="Pulsa Migrar ahora" data-en="Press Migrate now">Pulsa Migrar ahora</b><span data-es="Los IDs numéricos pasan a códigos INEI de 6 dígitos y el otro plugin se desactiva." data-en="Numeric IDs become 6-digit INEI codes and the other plugin is deactivated.">Los IDs numéricos pasan a códigos INEI de 6 dígitos y el otro plugin se desactiva.</span></div></li>
+        <li><div><b data-es="Listo" data-en="Done">Listo</b><span data-es="Sus tablas quedan como respaldo; nada se borra. También por consola:" data-en="Their tables stay as a backup; nothing is deleted. Also from the command line:">Sus tablas quedan como respaldo; nada se borra. También por consola:</span> <code class="cmd">wp jxubi migrate --dry-run</code></div></li>
+      </ol>
+    </div>
+    <figure class="rv" style="--d:.1s">
+      <div class="win admin"><div class="win-bar" aria-hidden="true"><i></i><i></i><i></i></div><video muted loop playsinline preload="none" poster="media/demo-migrate.jpg" aria-describedby="cap-migrate" aria-label="Migrador en el panel de WordPress: simulación y luego migración, con el informe" data-es-label="Migrador en el panel de WordPress: simulación y luego migración, con el informe" data-en-label="Migrator in the WordPress dashboard: dry run, then migration, with the report"><source src="media/demo-migrate.webm" type="video/webm"><source src="media/demo-migrate.mp4" type="video/mp4"></video></div>
+      <figcaption class="small" id="cap-migrate"><span data-es="De los 1867 distritos que traía el plugin anterior, el migrador reconoció 1857; los 10 restantes se listan en el informe." data-en="Of the 1867 districts the previous plugin had, the migrator recognised 1857; the other 10 are listed in the report.">De los 1867 distritos que traía el plugin anterior, el migrador reconoció 1857; los 10 restantes se listan en el informe.</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="planes">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow" data-es="Planes" data-en="Plans">Planes</p>
+      <h2 data-es="Gratis ahora, Pro después" data-en="Free now, Pro later">Gratis ahora, Pro después</h2>
+      <p class="lead" data-es="Todo lo de arriba es gratis y se queda gratis. El Pro sumará tarifas por peso, transportistas y plazos de entrega." data-en="Everything above is free and stays free. Pro will add rates by weight, carriers and delivery times.">Todo lo de arriba es gratis y se queda gratis. El Pro sumará tarifas por peso, transportistas y plazos de entrega.</p>
+    </div>
+    <div class="plans">
+      <article class="plan free rv">
+        <span class="tag" data-es="En revisión en WordPress.org" data-en="Under review on WordPress.org">En revisión en WordPress.org</span>
+        <h3 data-es="Gratis" data-en="Free">Gratis</h3>
+        <div class="pricebox"><p class="price">S/ 0 <small data-es="para siempre, sitios ilimitados" data-en="forever, unlimited sites">para siempre, sitios ilimitados</small></p></div>
+        <ul>
+          <li data-es="Checkout clásico y de bloques, HPOS" data-en="Classic and block checkout, HPOS">Checkout clásico y de bloques, HPOS</li>
+          <li data-es="Tarifas por departamento, provincia y distrito" data-en="Rates per department, province and district">Tarifas por departamento, provincia y distrito</li>
+          <li data-es="Envío gratis por monto, recojo en tienda, CSV" data-en="Free shipping by amount, store pickup, CSV">Envío gratis por monto, recojo en tienda, CSV</li>
+          <li data-es="API REST, shortcode y bloque" data-en="REST API, shortcode and block">API REST, shortcode y bloque</li>
+          <li data-es="Migrador desde otros plugins de ubigeo" data-en="Migrator from other ubigeo plugins">Migrador desde otros plugins de ubigeo</li>
+        </ul>
+        <a class="btn primary" href="mailto:jaxtoradev@gmail.com?subject=Av%C3%ADsame%20cuando%20salga%20Ubigeo%20Env%C3%ADos%20Per%C3%BA" data-es="Avísame" data-en="Tell me">Avísame</a>
+      </article>
+      <article class="plan rv" style="--d:.08s">
+        <span class="tag soon" data-es="Próximamente" data-en="Coming soon">Próximamente</span>
+        <h3>Pro</h3>
+        <div class="pricebox"><p class="price">S/ 149 <small data-es="al año, 1 sitio" data-en="per year, 1 site">al año, 1 sitio</small></p>
+        <p class="usd small" data-es="aprox. US$39" data-en="about US$39">aprox. US$39</p></div>
+        <ul>
+          <li data-es="Tarifas por peso y volumen" data-en="Rates by weight and volume">Tarifas por peso y volumen</li>
+          <li data-es="Tablas por transportista (Olva, Shalom, Urbano...)" data-en="Per-carrier tables (Olva, Shalom, Urbano...)">Tablas por transportista (Olva, Shalom, Urbano...)</li>
+          <li data-es="Plazos de entrega por distrito" data-en="Delivery times per district">Plazos de entrega por distrito</li>
+          <li data-es="Pago contra entrega solo en zonas habilitadas" data-en="Cash on delivery only in enabled zones">Pago contra entrega solo en zonas habilitadas</li>
+          <li data-es="Zonas sin cobertura, calculadora en el producto, reportes por zona" data-en="No-coverage zones, calculator on the product page, reports per zone">Zonas sin cobertura, calculadora en el producto, reportes por zona</li>
+        </ul>
+        <p class="note small" data-es="También: 3 sitios S/ 299 al año (aprox. US$79) o pago único por sitio S/ 369 (aprox. US$99)." data-en="Also: 3 sites S/ 299 per year (about US$79) or a one-time payment per site of S/ 369 (about US$99).">También: 3 sitios S/ 299 al año (aprox. US$79) o pago único por sitio S/ 369 (aprox. US$99).</p>
+      </article>
+      <article class="plan rv" style="--d:.16s">
+        <span class="tag soon" data-es="Próximamente" data-en="Coming soon">Próximamente</span>
+        <h3 data-es="Agencia" data-en="Agency">Agencia</h3>
+        <div class="pricebox"><p class="price">S/ 549 <small data-es="al año, 25 sitios" data-en="per year, 25 sites">al año, 25 sitios</small></p>
+        <p class="usd small" data-es="aprox. US$149" data-en="about US$149">aprox. US$149</p></div>
+        <ul>
+          <li data-es="Todo lo del Pro" data-en="Everything in Pro">Todo lo del Pro</li>
+          <li data-es="Varias tiendas con recojo por sucursal" data-en="Several stores with pickup per branch">Varias tiendas con recojo por sucursal</li>
+          <li data-es="Etiquetas y guías de despacho en PDF" data-en="PDF labels and dispatch notes">Etiquetas y guías de despacho en PDF</li>
+          <li data-es="Seguimiento del pedido por transportista" data-en="Order tracking per carrier">Seguimiento del pedido por transportista</li>
+          <li data-es="Ubigeo en el comprobante electrónico" data-en="Ubigeo on the electronic invoice">Ubigeo en el comprobante electrónico</li>
+        </ul>
+      </article>
+    </div>
+    <div class="fine rv">
+      <p class="small" data-es="Precios sugeridos, todavía sin fecha de lanzamiento: pueden cambiar. El Pro será un plugin aparte que usa la versión gratuita." data-en="Suggested prices, no launch date yet: they may change. Pro will be a separate plugin that builds on the free version.">Precios sugeridos, todavía sin fecha de lanzamiento: pueden cambiar. El Pro será un plugin aparte que usa la versión gratuita.</p>
+      <p class="small" data-es="Licencia: el plugin gratuito es GPL v2 o posterior. El Pro se vende con una clave de licencia por sitio, que da actualizaciones y soporte durante el periodo pagado. El código del Pro no se publica y tiene términos comerciales propios." data-en="License: the free plugin is GPL v2 or later. Pro is sold with one license key per site, which gives updates and support for the paid period. Pro code is not published and has its own commercial terms.">Licencia: el plugin gratuito es GPL v2 o posterior. El Pro se vende con una clave de licencia por sitio, que da actualizaciones y soporte durante el periodo pagado. El código del Pro no se publica y tiene términos comerciales propios.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="alt">
+  <div class="wrap">
+    <div class="head rv">
+      <p class="eyebrow" data-es="Preguntas" data-en="FAQ">Preguntas</p>
+      <h2 data-es="Lo que suelen preguntar" data-en="What people usually ask">Lo que suelen preguntar</h2>
+    </div>
+    <aside class="code rv">
+      <p class="eyebrow" data-es="Qué es un ubigeo" data-en="What is an ubigeo">Qué es un ubigeo</p>
+      <div class="terraces" role="img" aria-label="Código ubigeo 150122: departamento Lima, provincia Lima, distrito Miraflores" data-es-label="Código ubigeo 150122: departamento Lima, provincia Lima, distrito Miraflores" data-en-label="Ubigeo code 150122: department Lima, province Lima, district Miraflores">
+        <div class="terrace"><div class="n">15</div><div class="l" data-es="Departamento" data-en="Department">Departamento</div><div class="v">Lima</div></div>
+        <div class="terrace"><div class="n">01</div><div class="l" data-es="Provincia" data-en="Province">Provincia</div><div class="v">Lima</div></div>
+        <div class="terrace"><div class="n">22</div><div class="l" data-es="Distrito" data-en="District">Distrito</div><div class="v">Miraflores</div></div>
+      </div>
+      <p class="code-cap small"><span data-es="Así se lee un ubigeo del INEI: " data-en="How to read an INEI ubigeo: ">Así se lee un ubigeo del INEI: </span><code>150122</code> = Miraflores.</p>
+    </aside>
+    <div class="faq rv">
+      <details><summary data-es="¿Cuándo puedo instalarlo?" data-en="When can I install it?">¿Cuándo puedo instalarlo?</summary><p data-es="Está en revisión para el directorio de WordPress.org. Cuando se publique, lo instalas desde Plugins, Añadir nuevo, buscando Ubigeo Envíos Perú." data-en="It is under review for the WordPress.org directory. Once published, you install it from Plugins, Add New, by searching for Ubigeo Envíos Perú.">Está en revisión para el directorio de WordPress.org. Cuando se publique, lo instalas desde Plugins, Añadir nuevo, buscando Ubigeo Envíos Perú.</p></details>
+      <details><summary data-es="¿Funciona con el checkout de bloques?" data-en="Does it work with the block checkout?">¿Funciona con el checkout de bloques?</summary><p data-es="Sí. Ahí aparece un solo selector con búsqueda llamado Distrito, provincia y departamento, y de él se obtienen los tres niveles. En el checkout clásico son tres selectores encadenados." data-en="Yes. It shows one searchable select called District, province and department, and all three levels come from it. In the classic checkout there are three chained selects.">Sí. Ahí aparece un solo selector con búsqueda llamado Distrito, provincia y departamento, y de él se obtienen los tres niveles. En el checkout clásico son tres selectores encadenados.</p></details>
+      <details><summary data-es="¿Se envían datos a servidores externos?" data-en="Is any data sent to external servers?">¿Se envían datos a servidores externos?</summary><p data-es="No. La lista de ubigeos va dentro del plugin y se carga desde tu propio sitio. No hay seguimiento ni llamadas a terceros." data-en="No. The ubigeo list ships inside the plugin and loads from your own site. There is no tracking and no third-party calls.">No. La lista de ubigeos va dentro del plugin y se carga desde tu propio sitio. No hay seguimiento ni llamadas a terceros.</p></details>
+      <details><summary data-es="¿De dónde salen los datos?" data-en="Where does the data come from?">¿De dónde salen los datos?</summary><p data-es="De la lista de ubigeos del INEI de 2025 (conjunto abierto ubigeos_peru, licencia MIT), más el distrito Santa Rosa de Loreto del directorio del INEI de mayo de 2026. Son 25 departamentos, 196 provincias y 1892 distritos." data-en="From the INEI 2025 ubigeo list (open dataset ubigeos_peru, MIT license), plus the Santa Rosa de Loreto district from the INEI directory of May 2026. That is 25 departments, 196 provinces and 1892 districts.">De la lista de ubigeos del INEI de 2025 (conjunto abierto ubigeos_peru, licencia MIT), más el distrito Santa Rosa de Loreto del directorio del INEI de mayo de 2026. Son 25 departamentos, 196 provincias y 1892 distritos.</p></details>
+      <details><summary data-es="¿Qué pasa con mis pedidos actuales?" data-en="What happens to my current orders?">¿Qué pasa con mis pedidos actuales?</summary><p data-es="Si vienes del plugin Ubigeo de Perú, el migrador los convierte. Si vienes de otra solución, no se tocan; los pedidos nuevos guardan el código en el pedido." data-en="If you come from the Ubigeo de Perú plugin, the migrator converts them. If you come from something else, they are left alone; new orders store the code on the order.">Si vienes del plugin Ubigeo de Perú, el migrador los convierte. Si vienes de otra solución, no se tocan; los pedidos nuevos guardan el código en el pedido.</p></details>
+      <details><summary data-es="¿Es gratis de verdad?" data-en="Is it really free?">¿Es gratis de verdad?</summary><p data-es="Sí. Las tarifas por zona, el recojo en tienda y el CSV, que en otros plugins son de pago, vienen incluidos. La licencia es GPL v2 o posterior." data-en="Yes. Per-zone rates, store pickup and CSV, which other plugins sell, are included. The license is GPL v2 or later.">Sí. Las tarifas por zona, el recojo en tienda y el CSV, que en otros plugins son de pago, vienen incluidos. La licencia es GPL v2 o posterior.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap small">
+    <p><b>Jaxtora</b> · <span data-es="Plugins para tiendas peruanas." data-en="Plugins for Peruvian stores.">Plugins para tiendas peruanas.</span></p>
+    <p><span data-es="Ubigeo Envíos Perú, versión 1.0.0. Soporte por correo:" data-en="Ubigeo Envíos Perú, version 1.0.0. Support by email:">Ubigeo Envíos Perú, versión 1.0.0. Soporte por correo:</span> <a href="mailto:jaxtoradev@gmail.com">jaxtoradev@gmail.com</a></p>
+    <p data-es="Licencia GPL v2 o posterior. Datos del INEI (2025 y 2026), vía ubigeos_peru (MIT). Los nombres de otros plugins y de transportistas pertenecen a sus dueños." data-en="GPL v2 or later license. INEI data (2025 and 2026), via ubigeos_peru (MIT). The names of other plugins and of carriers belong to their owners.">Licencia GPL v2 o posterior. Datos del INEI (2025 y 2026), vía ubigeos_peru (MIT). Los nombres de otros plugins y de transportistas pertenecen a sus dueños.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement, body = document.body;
+  body.classList.remove('no-js');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Demos: play only while on screen. Reduced motion: no autoplay, poster plus controls. */
+  var vids = document.querySelectorAll('video');
+  if (window.matchMedia('(max-width: 40rem)').matches) {
+    vids.forEach(function (v) { var m = v.getAttribute('data-poster-m'); if (m) v.poster = m; });
+  }
+  if (reduce || !('IntersectionObserver' in window)) {
+    vids.forEach(function (v) { v.controls = true; });
+  } else {
+    var vio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { var p = v.play(); if (p) p.catch(function () { v.controls = true; }); } else { v.pause(); }
+      });
+    }, { threshold: 0.1 });
+    vids.forEach(function (v) { vio.observe(v); });
+  }
+
+  /* Table: drop the right-edge fade once scrolled to the end. */
+  var tw = document.querySelector('.tablewrap');
+  function tend() { tw.classList.toggle('end', tw.scrollLeft + tw.clientWidth >= tw.scrollWidth - 2); }
+  tw.addEventListener('scroll', tend, { passive: true }); window.addEventListener('resize', tend); tend();
+
+  /* Language toggle: Spanish is the source text, English lives in data-en. */
+  var nodes = document.querySelectorAll('[data-en]');
+  var alts = document.querySelectorAll('[data-en-alt]');
+  var labelled = document.querySelectorAll('[data-en-label]');
+  var seg = document.querySelector('.lang');
+  function setLang(lang) {
+    nodes.forEach(function (n) { n.innerHTML = n.getAttribute(lang === 'en' ? 'data-en' : 'data-es') || n.innerHTML; });
+    alts.forEach(function (n) { n.alt = n.getAttribute(lang === 'en' ? 'data-en-alt' : 'data-es-alt'); });
+    labelled.forEach(function (n) { n.setAttribute('aria-label', n.getAttribute(lang === 'en' ? 'data-en-label' : 'data-es-label')); });
+    root.lang = lang;
+    seg.setAttribute('data-active', lang);
+    seg.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
+    document.title = lang === 'en' ? 'Ubigeo Envíos Perú | Department, province and district for WooCommerce' : 'Ubigeo Envíos Perú | Departamento, provincia y distrito para WooCommerce';
+    try { localStorage.setItem('jx-lang', lang); } catch (e) {}
+  }
+  seg.querySelectorAll('button').forEach(function (b) { b.addEventListener('click', function () { setLang(b.dataset.lang); }); });
+  var wanted = /[?&]lang=(en|es)/.exec(location.search);
+  var saved = null; try { saved = localStorage.getItem('jx-lang'); } catch (e) {}
+  var lang = wanted ? wanted[1] : saved || 'es';
+  if (lang === 'en') setLang('en');
+
+  /* Hairline under the nav only once content scrolls beneath it. */
+  var top = document.querySelector('header.top');
+  function edge() { top.classList.toggle('scrolled', window.scrollY > 4); }
+  window.addEventListener('scroll', edge, { passive: true }); edge();
+
+  /* One spring-eased entrance per block. */
+  var items = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -6% 0px' });
+    items.forEach(function (i) { io.observe(i); });
+  } else { items.forEach(function (i) { i.classList.add('in'); }); }
+}());
+</script>
+</body>
+</html>
