@@ -4,9 +4,327 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jaxtora</title>
-<meta http-equiv="refresh" content="0; url=ubigeos-peru-exacto/">
-<link rel="canonical" href="https://jaxtoradev.github.io/ubigeos-peru-exacto/">
-<style>body{font:17px/1.5 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;margin:3rem 1rem;background:#fff;color:#1d1d1f}@media(prefers-color-scheme:dark){body{background:#000;color:#f5f5f7}a{color:#ff8a6b}}</style>
+<meta name="description" content="Jaxtora hace software pequeño y útil para tiendas y personas en el Perú y Latinoamérica: plugins de WordPress y WooCommerce, apps Android y herramientas de datos.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#fbfaf8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0b0d" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://jaxtoradev.github.io/">
+<link rel="alternate" hreflang="es" href="https://jaxtoradev.github.io/">
+<link rel="alternate" hreflang="en" href="https://jaxtoradev.github.io/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://jaxtoradev.github.io/">
+<link rel="icon" href="brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Jaxtora">
+<meta property="og:title" content="Jaxtora">
+<meta property="og:description" content="Software pequeño y útil para tiendas y personas en el Perú y Latinoamérica.">
+<meta property="og:url" content="https://jaxtoradev.github.io/">
+<meta property="og:image" content="https://jaxtoradev.github.io/brand/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Logo de Jaxtora">
+<meta property="og:locale" content="es_PE">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://jaxtoradev.github.io/brand/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Jaxtora","url":"https://jaxtoradev.github.io/","email":"jaxtoradev@gmail.com","logo":"https://jaxtoradev.github.io/brand/avatar-500.png","sameAs":["https://github.com/jaxtoradev","https://profiles.wordpress.org/jaxtora/"]}
+</script>
+<style>
+/* ---------- tokens (same system as /ubigeos-peru-exacto/) ---------- */
+:root{
+  --bg:#fbfaf8; --alt:#f3f1ed; --surface:#fff; --ink:#1d1d1f; --ink2:#5f5f66; --line:rgba(0,0,0,.09);
+  --accent:#b4432c; --on-accent:#fff; --accent-soft:rgba(180,67,44,.08);
+  --shadow-s:0 1px 2px rgba(0,0,0,.05),0 4px 12px -4px rgba(0,0,0,.08);
+  --shadow-l:0 1px 1px rgba(0,0,0,.04),0 12px 24px -8px rgba(0,0,0,.10),0 40px 80px -24px rgba(0,0,0,.18);
+  --nav:rgba(251,250,248,.72);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display",system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --w:64rem; --gut:1rem;
+  /* critically damped spring (damping 1.0, response ~0.4 s), sampled into linear() */
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+@supports (transition-timing-function:linear(0,1)){
+  :root{--ease:linear(0,.082 5%,.243 10%,.561 20%,.774 30%,.89 40%,.965 55%,.99 70%,1)}
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0b0b0d; --alt:#151517; --surface:#1c1c1e; --ink:#f5f5f7; --ink2:#a1a1a6; --line:rgba(255,255,255,.1);
+    --accent:#ff8a6b; --on-accent:#1d1d1f; --accent-soft:rgba(255,138,107,.12);
+    --shadow-s:0 1px 2px rgba(0,0,0,.4),0 4px 12px -4px rgba(0,0,0,.5);
+    --shadow-l:0 0 0 1px rgba(255,255,255,.06),0 12px 24px -8px rgba(0,0,0,.5),0 40px 80px -24px rgba(0,0,0,.7);
+    --nav:rgba(11,11,13,.7);
+  }
+}
+@media (min-width:40rem){:root{--gut:1.5rem}}
+
+/* ---------- base ---------- */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:5rem;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.55 var(--font);letter-spacing:-.003em;-webkit-font-smoothing:antialiased;font-optical-sizing:auto;overflow-x:clip}
+a{color:inherit}
+p{margin:0}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:var(--gut);top:-4rem;background:var(--ink);color:var(--bg);padding:.6rem 1rem;border-radius:.6rem;z-index:30;text-decoration:none}
+.skip:focus{top:.6rem}
+.wrap{width:min(100% - 2*var(--gut),var(--w));margin-inline:auto}
+
+/* type scale: tracking tightens and leading drops as size grows */
+h1,h2,h3{margin:0;font-weight:700;text-wrap:balance}
+h1{font-size:clamp(2.4rem,1.3rem + 5vw,4.75rem);line-height:1.05;letter-spacing:-.036em}
+@media(max-width:26rem){h1{font-size:2.2rem}}
+h2{font-size:clamp(2rem,1.25rem + 3.4vw,3.25rem);line-height:1.07;letter-spacing:-.03em}
+h3{font-size:1.25rem;line-height:1.25;letter-spacing:-.016em}
+.eyebrow{font-size:1.0625rem;font-weight:600;color:var(--accent);letter-spacing:-.005em}
+.lead{font-size:clamp(1.125rem,1rem + .55vw,1.375rem);line-height:1.45;letter-spacing:-.01em;color:var(--ink2);text-wrap:pretty}
+.small{font-size:.875rem;line-height:1.45;letter-spacing:.003em;color:var(--ink2)}
+
+/* ---------- nav: translucent layer, hairline only once content scrolls under ---------- */
+header.top{position:sticky;top:0;z-index:20;background:var(--nav);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);box-shadow:0 1px 0 transparent;transition:box-shadow .3s ease}
+header.top.scrolled{box-shadow:0 1px 0 var(--line)}
+.bar{display:flex;align-items:center;gap:1rem;min-height:3.25rem}
+.brand{display:flex;align-items:center;gap:.55rem;font-weight:600;font-size:1.0625rem;letter-spacing:-.015em;text-decoration:none;white-space:nowrap}
+.brand svg{width:1.6rem;height:1.6rem;flex:none}
+nav.links{display:none;gap:1.75rem;margin-left:auto;font-size:.875rem;letter-spacing:.003em}
+nav.links a{text-decoration:none;color:var(--ink2);padding:.35rem 0;transition:color .2s}
+nav.links a:hover{color:var(--ink)}
+@media(min-width:44rem){nav.links{display:flex}}
+
+/* segmented control with a sliding thumb (interruptible CSS transition) */
+.lang{margin-left:auto;position:relative;display:inline-grid;grid-template-columns:1fr 1fr;padding:3px;border-radius:999px;background:color-mix(in srgb,var(--ink) 7%,transparent)}
+@media(min-width:44rem){.lang{margin-left:0}}
+.lang::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:999px;background:var(--surface);box-shadow:var(--shadow-s);transition:transform .45s var(--ease)}
+.lang[data-active=en]::before{transform:translateX(100%)}
+.lang button{position:relative;font:600 .8125rem/1 var(--font);letter-spacing:.01em;border:0;background:transparent;color:var(--ink2);padding:0 .8rem;min-height:2.25rem;min-width:2.75rem;border-radius:999px;cursor:pointer;transition:color .2s,transform .1s ease-out}
+.lang button[aria-pressed=true]{color:var(--ink)}
+.lang button:active{transform:scale(.96)}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;min-height:2.875rem;padding:0 1.4rem;border-radius:999px;font-weight:500;font-size:1.0625rem;letter-spacing:-.01em;text-decoration:none;transition:transform .1s ease-out,filter .2s}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.link{color:var(--accent);padding:0 .25rem}
+.btn.link::after{content:"\203A";font-size:1.25em;line-height:1;transition:transform .3s var(--ease)}
+.btn.link:hover::after{transform:translateX(3px)}
+
+/* ---------- sections ---------- */
+section{padding:clamp(4rem,2.5rem + 6vw,8rem) 0}
+section.alt{background:var(--alt)}
+.head{display:grid;gap:.85rem;margin:0 auto clamp(2.5rem,2rem + 3vw,4rem);max-width:44rem;text-align:center}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(3.5rem,2rem + 6vw,7.5rem) 0 clamp(4rem,3rem + 6vw,7.5rem);text-align:center}
+.hero .mark{width:4.5rem;height:4.5rem;margin:0 auto 1.75rem;display:block}
+.hero h1{max-width:20ch;margin:0 auto 1.25rem}
+.hero .lead{max-width:36rem;margin:0 auto 2.25rem}
+.cta{display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem 1.5rem;align-items:center}
+
+/* ---------- products ---------- */
+.grid{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fill,minmax(min(100%,18.5rem),1fr))}
+.card{position:relative;background:var(--surface);border-radius:1.4rem;padding:1.75rem 1.6rem;display:flex;flex-direction:column;gap:.7rem;box-shadow:var(--shadow-s);transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.card .kind{font-size:.8125rem;font-weight:600;letter-spacing:.01em;color:var(--ink2)}
+.card p{color:var(--ink2);font-size:.9875rem;line-height:1.5}
+.card .foot{margin-top:auto;padding-top:.6rem;display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center}
+.tag{font-size:.75rem;font-weight:600;letter-spacing:.02em;padding:.3rem .7rem;border-radius:999px;background:var(--accent);color:var(--on-accent)}
+.tag.soon{background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink2)}
+.card a.more{font-size:.9375rem;font-weight:500;color:var(--accent);text-decoration:none}
+.card a.more::after{content:"";position:absolute;inset:0;border-radius:inherit} /* whole card is the target */
+.card a.more::before{content:"\203A";float:right;margin-left:.3rem;font-size:1.2em;line-height:1.1;transition:transform .3s var(--ease)}
+.card:has(a.more):hover{transform:translateY(-3px);box-shadow:var(--shadow-l)}
+.card:has(a.more):hover a.more::before{transform:translateX(3px)}
+.card:has(a.more):active{transform:scale(.985);transition-duration:.1s}
+
+/* ---------- how we work ---------- */
+.points{display:grid;gap:2rem;margin:0;padding:0;list-style:none}
+@media(min-width:48rem){.points{grid-template-columns:repeat(3,1fr);gap:2.5rem}}
+.points li{display:grid;gap:.5rem;align-content:start}
+.points li::before{content:"";width:2.25rem;height:.35rem;border-radius:999px;background:var(--accent);margin-bottom:.6rem}
+.points p{color:var(--ink2)}
+
+/* ---------- contact ---------- */
+.contact{text-align:center}
+.contact .cta{margin-top:2rem}
+.contact .mail{font-size:clamp(1.25rem,1rem + 1.2vw,1.75rem);font-weight:600;letter-spacing:-.02em;color:var(--accent);text-decoration:none;overflow-wrap:anywhere}
+
+/* ---------- footer ---------- */
+footer{padding:2.5rem 0 3.5rem;background:var(--alt);border-top:1px solid var(--line)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;justify-content:space-between}
+footer a{color:var(--ink2)}
+
+/* ---------- entrance: one spring-eased rise per block ---------- */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease-out,transform .9s var(--ease);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+.no-js .rv{opacity:1;transform:none}
+
+/* ---------- accessibility preferences ---------- */
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{transform:none;transition:opacity .2s ease}
+  .lang::before,.btn,.btn.link::after,.card,.card a.more::before{transition:none}
+  .card:has(a.more):hover{transform:none}
+}
+@media(prefers-reduced-transparency:reduce){
+  header.top{background:var(--bg);-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+@media(prefers-contrast:more){
+  :root{--line:currentColor;--ink2:var(--ink)}
+  header.top{background:var(--bg);box-shadow:0 1px 0 var(--ink)}
+  .card{border:1px solid var(--ink)}
+}
+</style>
 </head>
-<body><p><a href="ubigeos-peru-exacto/">Ubigeos Perú Exacto</a></p></body>
+<body class="no-js">
+<a class="skip" href="#main" data-es="Saltar al contenido" data-en="Skip to content">Saltar al contenido</a>
+
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#top" aria-label="Jaxtora">
+      <svg aria-hidden="true" viewBox="0 0 256 256"><defs><clipPath id="jd"><polygon points="128,20 236,128 128,236 20,128"/></clipPath><mask id="jg"><rect x="-100" y="-100" width="456" height="456" fill="#fff"/><polyline points="-70,348 -70,304 -26,304 -26,260 18,260 18,216 62,216 62,172 106,172 106,128 150,128 150,84 194,84 194,40 238,40 238,-4" fill="none" stroke="#000" stroke-width="18" stroke-linejoin="miter"/></mask></defs><g transform="translate(128 128) scale(1.0000) translate(-128 -128)"><g clip-path="url(#jd)" mask="url(#jg)"><polygon fill="#b4432c" points="-70,348 -70,304 -26,304 -26,260 18,260 18,216 62,216 62,172 106,172 106,128 150,128 150,84 194,84 194,40 238,40 238,-4 -100,-100"/><polygon fill="currentColor" points="-70,348 -70,304 -26,304 -26,260 18,260 18,216 62,216 62,172 106,172 106,128 150,128 150,84 194,84 194,40 238,40 238,-4 356,356"/></g></g></svg>
+      <span>Jaxtora</span>
+    </a>
+    <nav class="links" aria-label="Principal" data-es-label="Principal" data-en-label="Main">
+      <a href="#productos" data-es="Productos" data-en="Products">Productos</a>
+      <a href="#como" data-es="Cómo trabajamos" data-en="How we work">Cómo trabajamos</a>
+      <a href="#contacto" data-es="Contacto" data-en="Contact">Contacto</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Idioma / Language" data-active="es">
+      <button type="button" data-lang="es" aria-pressed="true" lang="es">ES</button>
+      <button type="button" data-lang="en" aria-pressed="false" lang="en">EN</button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap">
+    <svg class="mark rv" aria-hidden="true" viewBox="0 0 256 256"><defs><clipPath id="jd2"><polygon points="128,20 236,128 128,236 20,128"/></clipPath><mask id="jg2"><rect x="-100" y="-100" width="456" height="456" fill="#fff"/><polyline points="-70,348 -70,304 -26,304 -26,260 18,260 18,216 62,216 62,172 106,172 106,128 150,128 150,84 194,84 194,40 238,40 238,-4" fill="none" stroke="#000" stroke-width="18" stroke-linejoin="miter"/></mask></defs><g transform="translate(128 128) scale(1.0000) translate(-128 -128)"><g clip-path="url(#jd2)" mask="url(#jg2)"><polygon fill="#b4432c" points="-70,348 -70,304 -26,304 -26,260 18,260 18,216 62,216 62,172 106,172 106,128 150,128 150,84 194,84 194,40 238,40 238,-4 -100,-100"/><polygon fill="currentColor" points="-70,348 -70,304 -26,304 -26,260 18,260 18,216 62,216 62,172 106,172 106,128 150,128 150,84 194,84 194,40 238,40 238,-4 356,356"/></g></g></svg>
+    <h1 class="rv" data-es="Software pequeño y útil para tiendas y personas en el Perú y Latinoamérica." data-en="Small, useful software for stores and people in Peru and Latin America.">Software pequeño y útil para tiendas y personas en el Perú y Latinoamérica.</h1>
+    <p class="lead rv" style="--d:.06s" data-es="Plugins para WordPress y WooCommerce, apps Android y herramientas de datos. Cada uno resuelve una tarea concreta." data-en="WordPress and WooCommerce plugins, Android apps and data tools. Each one does one concrete job.">Plugins para WordPress y WooCommerce, apps Android y herramientas de datos. Cada uno resuelve una tarea concreta.</p>
+    <div class="cta rv" style="--d:.12s">
+      <a class="btn primary" href="#productos" data-es="Ver productos" data-en="See products">Ver productos</a>
+      <a class="btn link" href="mailto:jaxtoradev@gmail.com" data-es="Escríbenos" data-en="Write to us">Escríbenos</a>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="productos">
+  <div class="wrap">
+    <div class="head rv">
+      <h2 data-es="Productos" data-en="Products">Productos</h2>
+      <p class="lead" data-es="Lo que ya existe y lo que viene, con su estado real." data-en="What exists and what is coming, with its real status.">Lo que ya existe y lo que viene, con su estado real.</p>
+    </div>
+    <div class="grid" id="grid"></div>
+    <noscript><p class="small"><a href="ubigeos-peru-exacto/">Ubigeos Perú Exacto</a>, PagoPerú, Loclist, Google Trends en lote, apps Android.</p></noscript>
+  </div>
+</section>
+
+<section id="como">
+  <div class="wrap">
+    <div class="head rv">
+      <h2 data-es="Cómo trabajamos" data-en="How we work">Cómo trabajamos</h2>
+    </div>
+    <ul class="points">
+      <li class="rv"><h3 data-es="Código revisado y probado" data-en="Reviewed, tested code">Código revisado y probado</h3><p data-es="Cada versión pasa pruebas automáticas y se prueba a mano en un entorno real antes de publicarse." data-en="Every release passes automated tests and is checked by hand in a real setup before it ships.">Cada versión pasa pruebas automáticas y se prueba a mano en un entorno real antes de publicarse.</p></li>
+      <li class="rv" style="--d:.06s"><h3 data-es="Sin rastreadores" data-en="No trackers">Sin rastreadores</h3><p data-es="Ni este sitio ni nuestros productos usan analítica de terceros ni rastreadores." data-en="Neither this site nor our products use third-party analytics or trackers.">Ni este sitio ni nuestros productos usan analítica de terceros ni rastreadores.</p></li>
+      <li class="rv" style="--d:.12s"><h3 data-es="Soporte por correo" data-en="Support by email">Soporte por correo</h3><p data-es="Escríbenos a jaxtoradev@gmail.com. Respondemos en español o en inglés." data-en="Write to jaxtoradev@gmail.com. We answer in Spanish or English.">Escríbenos a jaxtoradev@gmail.com. Respondemos en español o en inglés.</p></li>
+    </ul>
+  </div>
+</section>
+
+<section class="alt contact" id="contacto">
+  <div class="wrap rv">
+    <div class="head" style="margin-bottom:1.5rem">
+      <h2 data-es="Contacto" data-en="Contact">Contacto</h2>
+      <p class="lead" data-es="Preguntas, errores o ideas para un producto." data-en="Questions, bugs or ideas for a product.">Preguntas, errores o ideas para un producto.</p>
+    </div>
+    <a class="mail" href="mailto:jaxtoradev@gmail.com">jaxtoradev@gmail.com</a>
+    <div class="cta">
+      <a class="btn link" href="https://github.com/jaxtoradev">GitHub</a>
+      <a class="btn link" href="https://profiles.wordpress.org/jaxtora/">WordPress.org</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap small">
+    <span>© 2026 Jaxtora</span>
+    <span><a href="mailto:jaxtoradev@gmail.com">jaxtoradev@gmail.com</a></span>
+  </div>
+</footer>
+
+<script>
+/* Products. To add one, append an object to this array:
+   { name, kind_es, kind_en, es, en, status_es, status_en, live (true = accent tag), href (optional, only real links) } */
+var PRODUCTS = [
+  { name: "Ubigeos Perú Exacto", kind_es: "Plugin de WooCommerce", kind_en: "WooCommerce plugin",
+    es: "Departamento, provincia y distrito del INEI en el checkout, tarifas de envío por zona y migración en 1 clic desde otro plugin.",
+    en: "INEI department, province and district at checkout, shipping rates per zone and one-click migration from another plugin.",
+    status_es: "En revisión en WordPress.org", status_en: "Under review on WordPress.org", live: true, href: "ubigeos-peru-exacto/" },
+  { name: "PagoPerú", kind_es: "Plugin de WooCommerce", kind_en: "WooCommerce plugin",
+    es: "Cobros con Yape y Plin por código QR. La tienda confirma cada pago desde su panel.",
+    en: "Yape and Plin payments by QR code. The store confirms each payment from its dashboard.",
+    status_es: "Próximamente", status_en: "Coming soon" },
+  { name: "Loclist", kind_es: "Plugin de WordPress", kind_en: "WordPress plugin",
+    es: "Directorio de negocios para WordPress, con listados de pago.",
+    en: "Business directory for WordPress, with paid listings.",
+    status_es: "Próximamente", status_en: "Coming soon" },
+  { name: "Google Trends en lote", kind_es: "Actor de Apify", kind_en: "Apify actor",
+    es: "Tendencias de Google para muchas palabras clave en una sola corrida. Se paga solo por lo que se usa.",
+    en: "Google Trends for many keywords in a single run. You pay only for what you use.",
+    status_es: "Próximamente", status_en: "Coming soon" },
+  { name: "Apps Android", kind_es: "Android", kind_en: "Android",
+    es: "Apps sencillas, sin anuncios.", en: "Simple apps, no ads.",
+    status_es: "Próximamente en Google Play", status_en: "Coming soon to Google Play" }
+];
+(function () {
+  var root = document.documentElement, body = document.body;
+  body.classList.remove('no-js');
+
+  /* Render cards. Spanish is the source text, English lives in data-en. */
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function bi(tag, cls, es, en) { return '<' + tag + (cls ? ' class="' + cls + '"' : '') + ' data-es="' + esc(es) + '" data-en="' + esc(en) + '">' + esc(es) + '</' + tag + '>'; }
+  document.getElementById('grid').innerHTML = PRODUCTS.map(function (p, i) {
+    return '<article class="card rv" style="--d:' + (i * 0.05).toFixed(2) + 's">' +
+      bi('span', 'kind', p.kind_es, p.kind_en) + '<h3>' + esc(p.name) + '</h3>' + bi('p', '', p.es, p.en) +
+      '<div class="foot">' + bi('span', p.live ? 'tag' : 'tag soon', p.status_es, p.status_en) +
+      (p.href ? '<a class="more" href="' + esc(p.href) + '" data-es="Ver más" data-en="Learn more">Ver más</a>' : '') +
+      '</div></article>';
+  }).join('');
+
+  /* Language toggle. */
+  var nodes = document.querySelectorAll('[data-en]');
+  var labelled = document.querySelectorAll('[data-en-label]');
+  var seg = document.querySelector('.lang');
+  function setLang(lang) {
+    nodes.forEach(function (n) { n.innerHTML = n.getAttribute(lang === 'en' ? 'data-en' : 'data-es'); });
+    labelled.forEach(function (n) { n.setAttribute('aria-label', n.getAttribute(lang === 'en' ? 'data-en-label' : 'data-es-label')); });
+    root.lang = lang;
+    seg.setAttribute('data-active', lang);
+    seg.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.lang === lang)); });
+    try { localStorage.setItem('jx-lang', lang); } catch (e) {}
+  }
+  seg.querySelectorAll('button').forEach(function (b) { b.addEventListener('click', function () { setLang(b.dataset.lang); }); });
+  var wanted = /[?&]lang=(en|es)/.exec(location.search);
+  var saved = null; try { saved = localStorage.getItem('jx-lang'); } catch (e) {}
+  if ((wanted ? wanted[1] : saved) === 'en') setLang('en');
+
+  /* Hairline under the nav only once content scrolls beneath it. */
+  var top = document.querySelector('header.top');
+  function edge() { top.classList.toggle('scrolled', window.scrollY > 4); }
+  window.addEventListener('scroll', edge, { passive: true }); edge();
+
+  /* One spring-eased entrance per block. */
+  var items = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -6% 0px' });
+    items.forEach(function (n) { io.observe(n); });
+  } else {
+    items.forEach(function (n) { n.classList.add('in'); });
+  }
+})();
+</script>
+</body>
 </html>
